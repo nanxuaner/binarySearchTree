@@ -12,7 +12,9 @@ class Node:
         return self.left
 
     def getNodeValue(self):
-        return self.value
+        if self.value != None:
+            return self.value
+
 
     def insert(self, value):
         """Insert a new node with data"""
@@ -47,8 +49,24 @@ class Node:
         else:
             return None, None
 
+    def children_count(self):
+        """return the number of children, 0, 1, 2"""
+        cnt = 0
+        if self.left:
+            cnt += 1
+        if self.right:
+            cnt += 1
+        return cnt
+
+    def delete(self, value):
+        
 
 
+def getValue(node):
+    if node != None:
+        return node.getNodeValue()
+    else:
+        return None
 
 def printList(node):
     if node != None:
@@ -68,8 +86,10 @@ def testTree():
     myTree.insert(8)
     myTree.insert(10)
     printList(myTree)
-    node, parent = myTree.lookup(6)
-    print (node.getNodeValue(), parent.getNodeValue())
+    node, parent = myTree.lookup(10)
+    print (getValue(node), getValue(parent))
+    node1, parent1 = myTree.lookup(18)
+    print (getValue(node1), getValue(parent1))
 
 
 
