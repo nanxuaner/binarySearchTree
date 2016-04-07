@@ -31,6 +31,25 @@ class Node:
         else:
             self.value = value
 
+    def lookup(self, value, parent=None):
+        """Look up node with a value"""
+        if self.value:
+            if value < self.value:
+                if self.left == None:
+                    return None, None
+                return self.left.lookup(value, self)
+            elif value > self.value:
+                if self.right == None:
+                    return None, None
+                return self.right.lookup(value, self)
+            else:
+                return self, parent
+        else:
+            return None, None
+
+
+
+
 def printList(node):
     if node != None:
         printList(node.getLeftChild())
@@ -49,6 +68,10 @@ def testTree():
     myTree.insert(8)
     myTree.insert(10)
     printList(myTree)
+    node, parent = myTree.lookup(6)
+    print (node.getNodeValue(), parent.getNodeValue())
+
+
 
 testTree()
 
