@@ -49,8 +49,10 @@ class Node:
         else:
             return None, None
 
+
     def children_count(self):
         """return the number of children, 0, 1, 2"""
+
         cnt = 0
         if self.left:
             cnt += 1
@@ -59,7 +61,47 @@ class Node:
         return cnt
 
     def delete(self, value):
-        
+        node, parent = self.lookup(value)
+        children_count = node.children_count()
+        if children_count == 0:
+            if parent:
+                if parent.left == node:
+                    parent.left = None
+                else:
+                    parent.right = None
+                del node
+            else:
+                self.value = None
+
+        elif children_count == 1:
+            if node.left:
+                n = node.left
+            else:
+                n = node.right
+            if parent:
+                if parent.left == node:
+                    parent.left = n
+                else:
+                    parent.right = n
+                del node
+            else:
+                self.left = n.left
+                self.right = n.right
+                self.value = n.value
+                del n
+        else:
+            parent = node
+            successor = node.right
+
+            while successor.left:
+                parent = successor
+                successor = successor.left
+            node.value = successor.value
+            if parent.left == successor:
+                parent.left = successor.right
+            else:
+                parent.right = successor.right
+            del successor
 
 
 def getValue(node):
@@ -90,7 +132,10 @@ def testTree():
     print (getValue(node), getValue(parent))
     node1, parent1 = myTree.lookup(18)
     print (getValue(node1), getValue(parent1))
-
+    myTree.delete(10)
+    printList(myTree)
+    node, parent = myTree.lookup(10)
+    print (getValue(node), getValue(parent))
 
 
 testTree()
